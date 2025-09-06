@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Escape Room Timer</title>
+  <title>จับเวลายุทธหัตถี</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -25,9 +25,9 @@
 
   <h1>Escape Room Timer</h1>
   <div id="time">00:00:00</div>
-  <button id="startBtn">เริ่มเกม</button>
+  <button id="startBtn">เริ่มจับเวลา</button>
   <button id="stopBtn">หยุด</button>
-  <button id="resetBtn">รีเซ็ต</button>
+
 
   <script>
     let startTime, updatedTime, difference, timerInterval;
@@ -60,11 +60,6 @@
       running = false;
     };
 
-    document.getElementById("resetBtn").onclick = function () {
-      clearInterval(timerInterval);
-      running = false;
-      document.getElementById("time").innerText = "00:00:00";
-    };
   </script>
 
 </body>
