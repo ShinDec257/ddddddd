@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>จับเวลายุทธหัตถี</title>
+  <style>
+    body {
+      font-family: "Tahoma", sans-serif;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000; /* พื้นหลังสีดำ */
+      color: white;
+    }
+
+    .container {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    #time {
+      font-size: 2em;
+      padding: 8px 16px;
+      border-radius: 8px;
+      color: white;
+    }
+
+    button {
+      font-size: 1em;
+      padding: 10px 18px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      color: white;
+    }
+
+    #startBtn { background: #2ecc71; }   /* เขียว */
+    #stopBtn  { background: #e74c3c; }   /* แดง */
+    #resetBtn { background: #333; }      /* ดำ */
+    
+    button:hover {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="time">00:00:00</div>
+    <button id="startBtn">เริ่มจับเวลา</button>
+    <button id="stopBtn">หยุดเวลา</button>
+    <button id="resetBtn">รีเซ็ต</button>
+  </div>
+
+  <script>
+    let startTime, updatedTime, difference, timerInterval;
+    let running = false;
+
+    function updateTime() {
+      updatedTime = new Date().getTime();
+      difference = updatedTime - startTime;
+
+      let hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById("time").innerText =
+        (hours < 10 ? "0" : "") + hours + ":" +
+        (minutes < 10 ? "0" : "") + minutes + ":" +
+        (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    document.getElementById("startBtn").onclick = function () {
+      if (!running) {
+        startTime = new Date().getTime();
+        timerInterval = setInterval(updateTime, 1000);
+        running = true;
+      }
+    };
+
+    document.getElementById("stopBtn").onclick = function () {
+      clearInterval(timerInterval);
+      running = false;
+    };
+
+    document.getElementById("resetBtn").onclick = function () {
+      clearInterval(timerInterval);
+      running = false;
+      document.getElementById("time").innerText = "00:00:00";
+    };
+  </script>
+
+</body>
+</html>
