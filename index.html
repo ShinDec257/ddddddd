@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Escape Room Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    #time {
+      font-size: 2em;
+      margin: 20px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Escape Room Timer</h1>
+  <div id="time">00:00:00</div>
+  <button id="startBtn">เริ่มเกม</button>
+  <button id="stopBtn">หยุด</button>
+  <button id="resetBtn">รีเซ็ต</button>
+
+  <script>
+    let startTime, updatedTime, difference, timerInterval;
+    let running = false;
+
+    function updateTime() {
+      updatedTime = new Date().getTime();
+      difference = updatedTime - startTime;
+
+      let hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((difference % (1000 * 60)) / 1000);
+
+      document.getElementById("time").innerText =
+        (hours < 10 ? "0" : "") + hours + ":" +
+        (minutes < 10 ? "0" : "") + minutes + ":" +
+        (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    document.getElementById("startBtn").onclick = function () {
+      if (!running) {
+        startTime = new Date().getTime();
+        timerInterval = setInterval(updateTime, 1000);
+        running = true;
+      }
+    };
+
+    document.getElementById("stopBtn").onclick = function () {
+      clearInterval(timerInterval);
+      running = false;
+    };
+
+    document.getElementById("resetBtn").onclick = function () {
+      clearInterval(timerInterval);
+      running = false;
+      document.getElementById("time").innerText = "00:00:00";
+    };
+  </script>
+
+</body>
+</html>
