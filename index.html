@@ -11,7 +11,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: #000; /* พื้นหลังสีดำ */
+      background: #000; 
       color: white;
     }
 
@@ -39,9 +39,9 @@
       color: white;
     }
 
-    #startBtn { background: #2ecc71; }   /* เขียว */
-    #stopBtn  { background: #e74c3c; }   /* แดง */
-    #resetBtn { background: #333; }      /* ดำ */
+    #startBtn { background: #2ecc71; } /* เขียว */
+    #stopBtn  { background: #e74c3c; } /* แดง */
+    #resetBtn { background: #333; }    /* ดำ */
     
     button:hover {
       opacity: 0.8;
@@ -59,12 +59,15 @@
   </div>
 
   <script>
-    let startTime, updatedTime, difference, timerInterval;
+    let timerInterval;
     let running = false;
 
     function updateTime() {
-      updatedTime = new Date().getTime();
-      difference = updatedTime - startTime;
+      let startTime = localStorage.getItem("startTime");
+      if (!startTime) return;
+
+      let updatedTime = new Date().getTime();
+      let difference = updatedTime - startTime;
 
       let hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       let minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
@@ -78,7 +81,7 @@
 
     document.getElementById("startBtn").onclick = function () {
       if (!running) {
-        startTime = new Date().getTime();
+        localStorage.setItem("startTime", new Date().getTime()); 
         timerInterval = setInterval(updateTime, 1000);
         running = true;
       }
@@ -92,8 +95,15 @@
     document.getElementById("resetBtn").onclick = function () {
       clearInterval(timerInterval);
       running = false;
+      localStorage.removeItem("startTime"); 
       document.getElementById("time").innerText = "00:00:00";
     };
+
+    // ถ้ามีเวลาเก่าเก็บไว้ → นับต่อทันที
+    if (localStorage.getItem("startTime")) {
+      running = true;
+      timerInterval = setInterval(updateTime, 1000);
+    }
   </script>
 
 </body>
